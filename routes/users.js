@@ -47,3 +47,14 @@ router.put('/:id', (req, res) => {
     }
   );
 });
+
+// DELETE user
+router.delete('/:id', (req, res) => {
+  const userId = req.params.id;
+  db.query('DELETE FROM users WHERE id = ?', [userId], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'User deleted' });
+  });
+});
+
+module.exports = router;
