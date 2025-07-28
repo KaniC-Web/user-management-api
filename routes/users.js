@@ -33,3 +33,17 @@ router.post('/', (req, res) => {
     }
   );
 });
+
+// PUT update user
+router.put('/:id', (req, res) => {
+  const userId = req.params.id;
+  const { name, email, phone, region, status, salesforce_id } = req.body;
+  db.query(
+    'UPDATE users SET name=?, email=?, phone=?, region=?, status=?, salesforce_id=? WHERE id=?',
+    [name, email, phone, region, status, salesforce_id, userId],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: 'User updated' });
+    }
+  );
+});
