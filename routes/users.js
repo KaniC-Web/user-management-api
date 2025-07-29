@@ -69,5 +69,7 @@ router.post('/webhook', (req, res) => {
 // Simple cleaning logic (trimming whitespace, lowercase email)
 const cleanedName = name.trim();
  const cleanedEmail = email.trim().toLowerCase();
- 
+ const cleanedPhone = phone ? phone.trim() : null;
+ const cleanedRegion = region ? region.trim() : null;
+
 module.exports = router;
