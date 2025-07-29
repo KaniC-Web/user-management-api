@@ -89,5 +89,10 @@ const cleanedName = name.trim();
         name: cleanedName,
         email: cleanedEmail,
       });
-      
+
+            res.status(201).json({ message: 'Salesforce data cleaned and inserted', id: result.insertId });
+    }
+  );
+});
+
 module.exports = router;
