@@ -74,4 +74,9 @@ const cleanedName = name.trim();
  const cleanedStatus = status ? status.trim().toLowerCase() : 'active'; //added default status value as active
  const cleanedSFID = salesforce_id ? salesforce_id.trim() : null;
 
+  // Insert into MySQL
+  db.query(
+    'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID]
+
 module.exports = router;
