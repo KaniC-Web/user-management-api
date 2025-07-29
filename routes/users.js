@@ -59,4 +59,6 @@ router.delete('/:id', (req, res) => {
 
 module.exports = router;
 
-//adding webhook 
+// Webhook Endpoint: Receives data from Salesforce
+router.post('/webhook', (req, res) => {
+  console.log('✅ Webhook received from Salesforce:', req.body);
