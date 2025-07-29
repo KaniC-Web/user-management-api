@@ -71,5 +71,6 @@ const cleanedName = name.trim();
  const cleanedEmail = email.trim().toLowerCase();
  const cleanedPhone = phone ? phone.trim() : null;
  const cleanedRegion = region ? region.trim() : null;
+ const cleanedStatus = status ? status.trim().toLowerCase() : 'active'; //added default status value as active
 
 module.exports = router;
