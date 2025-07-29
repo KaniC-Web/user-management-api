@@ -84,7 +84,8 @@ router.post('/webhook', (req, res) => {
         return res.status(500).json({ error: 'Failed to insert data' });
       }
 
-   //success response and control log
+  
+   //Success response and control log
       console.log('Cleaned data inserted from Salesforce webhook:', {
         id: result.insertId,
         name: cleanedName,
