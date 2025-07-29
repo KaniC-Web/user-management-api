@@ -60,9 +60,10 @@ router.delete('/:id', (req, res) => {
 // Webhook Endpoint: Receives data from Salesforce
 router.post('/webhook', (req, res) => {
   const { name, email, phone, region, status, salesforce_id } = req.body;
-
-  // This is where we will later add cleaning + database logic
-  res.status(200).json({ message: 'Webhook data received successfully' });
-});
+  
+ // Basic validation
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and Email are required' });
+  }
 
 module.exports = router;
