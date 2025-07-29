@@ -67,7 +67,7 @@ router.post('/webhook', (req, res) => {
   }
 
 // Simple cleaning logic (trimming whitespace, lowercase email)
-const cleanedName = name.trim();
+ const cleanedName = name.trim();
  const cleanedEmail = email.trim().toLowerCase();
  const cleanedPhone = phone ? phone.trim() : null;
  const cleanedRegion = region ? region.trim() : null;
@@ -84,13 +84,17 @@ const cleanedName = name.trim();
         return res.status(500).json({ error: 'Failed to insert data' });
       }
 
+   //success response and control log
       console.log('Cleaned data inserted from Salesforce webhook:', {
         id: result.insertId,
         name: cleanedName,
         email: cleanedEmail,
       });
 
-            res.status(201).json({ message: 'Salesforce data cleaned and inserted', id: result.insertId });
+      res.status(201).json({
+        message: 'Salesforce data cleaned and inserted',
+        id: result.insertId,
+      });
     }
   );
 });
