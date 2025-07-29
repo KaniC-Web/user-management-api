@@ -59,7 +59,7 @@ router.delete('/:id', (req, res) => {
 
 // Webhook Endpoint: Receives data from Salesforce
 router.post('/webhook', (req, res) => {
-  console.log('Webhook received from Salesforce:', req.body);
+  const { name, email, phone, region, status, salesforce_id } = req.body;
 
   // This is where we will later add cleaning + database logic
   res.status(200).json({ message: 'Webhook data received successfully' });
