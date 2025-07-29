@@ -77,6 +77,11 @@ const cleanedName = name.trim();
   // Insert into MySQL
   db.query(
     'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
-    [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID]
+    [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID],
+    (err, result) => {
+      if (err) {
+        console.error('DB insert error:', err.message);
+        return res.status(500).json({ error: 'Failed to insert data' });
+      }
 
 module.exports = router;
