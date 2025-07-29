@@ -84,4 +84,10 @@ const cleanedName = name.trim();
         return res.status(500).json({ error: 'Failed to insert data' });
       }
 
+      console.log('Cleaned data inserted from Salesforce webhook:', {
+        id: result.insertId,
+        name: cleanedName,
+        email: cleanedEmail,
+      });
+      
 module.exports = router;
