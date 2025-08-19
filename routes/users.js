@@ -85,6 +85,16 @@ router.post('/webhook', (req, res) => {
  const cleanedStatus = status ? status.trim().toLowerCase() : 'active'; //added default status value as active
  const cleanedSFID = salesforce_id ? salesforce_id.trim() : null;
 
+ // Validation rules
+  let rejectionReason = null;
+  if (!cleanedName || !cleanedEmail) {
+    rejectionReason = 'Name and Email are required';
+  } else if (!isValidEmail(cleanedEmail)) {
+    rejectionReason = 'Invalid email format';
+  } else if (cleanedPhone && !isValidPhone(cleanedPhone)) {
+    rejectionReason = 'Invalid phone format';
+  }
+
   // Insert into MySQL
   db.query(
     'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
