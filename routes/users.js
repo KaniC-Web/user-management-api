@@ -9,6 +9,11 @@ function isValidEmail(email) {
   return regex.test(email);
 }
 
+function isValidPhone(phone) {
+  const regex = /^[0-9]{7,15}$/; // only digits, length 7–15
+  return regex.test(phone);
+}
+
 // GET all users
 router.get('/', (req, res) => {
   db.query('SELECT * FROM users', (err, results) => {
