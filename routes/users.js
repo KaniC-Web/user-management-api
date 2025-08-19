@@ -95,6 +95,10 @@ router.post('/webhook', (req, res) => {
     rejectionReason = 'Invalid phone format';
   }
 
+  if (rejectionReason){
+    
+  }
+
   // Insert into MySQL
   db.query(
     'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
