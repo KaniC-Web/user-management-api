@@ -105,6 +105,8 @@ router.post('/webhook', (req, res) => {
           console.error('DB insert error (rejected):', err.message);
           return res.status(500).json({ error: 'Failed to insert rejected data' });
         }
+         console.log('Rejected data logged:', { name: cleanedName, email: cleanedEmail, reason: rejectionReason });
+        return res.status(400).json({ error: rejectionReason });
       );
   }
 
