@@ -96,7 +96,16 @@ router.post('/webhook', (req, res) => {
   }
 
   if (rejectionReason){
-    
+     // Save to rejected_users table
+      db.query(
+      'INSERT INTO rejected_users (name, email, phone, region, status, salesforce_id, reason) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID, rejectionReason],
+      (err) => {
+        if (err) {
+          console.error('DB insert error (rejected):', err.message);
+          return res.status(500).json({ error: 'Failed to insert rejected data' });
+        }
+      );
   }
 
   // Insert into MySQL
