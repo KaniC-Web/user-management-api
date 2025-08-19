@@ -141,4 +141,18 @@ res.status(201).json({
  }
 });
 
+// NEW: Stale data detection endpoint
+router.get('/stale/:months', (req, res) => {
+  const months = parseInt(req.params.months, 10) || 6; // default 6 months
+  db.query(
+    `SELECT * FROM users 
+     WHERE updated_at < DATE_SUB(NOW(), INTERVAL ? MONTH)`,
+    [months],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ stale_after_months: months, records: results });
+    }
+  );
+});
+
 module.exports = router;
