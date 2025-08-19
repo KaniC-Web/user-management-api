@@ -110,7 +110,7 @@ router.post('/webhook', (req, res) => {
       }
       );
   }else {
-    // Insert into users table
+    // UPSERT logic: if salesforce_id exists, update; else insert new
     db.query(
       'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
       [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID],
