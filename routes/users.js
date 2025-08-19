@@ -107,6 +107,7 @@ router.post('/webhook', (req, res) => {
         }
          console.log('Rejected data logged:', { name: cleanedName, email: cleanedEmail, reason: rejectionReason });
         return res.status(400).json({ error: rejectionReason });
+      }
       );
   }else {
     // Insert into users table
@@ -123,31 +124,13 @@ router.post('/webhook', (req, res) => {
           name: cleanedName,
           email: cleanedEmail,
         });
-
-  // Insert into MySQL
-  db.query(
-    'INSERT INTO users (name, email, phone, region, status, salesforce_id) VALUES (?, ?, ?, ?, ?, ?)',
-    [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID],
-    (err, result) => {
-      if (err) {
-        console.error('DB insert error:', err.message);
-        return res.status(500).json({ error: 'Failed to insert data' });
-      }
-
-  
-   //Success response and control log
-      console.log('Cleaned data inserted from Salesforce webhook:', {
-        id: result.insertId,
-        name: cleanedName,
-        email: cleanedEmail,
-      });
-
-      res.status(201).json({
-        message: 'Salesforce data cleaned and inserted',
-        id: result.insertId,
-      });
+res.status(201).json({
+          message: 'Salesforce data cleaned and inserted',
+          id: result.insertId,
+        });
     }
-  );
+ );
+ }
 });
 
 module.exports = router;
