@@ -72,7 +72,7 @@ router.delete('/:id', (req, res) => {
 router.post('/webhook', (req, res) => {
   const { name, email, phone, region, status, salesforce_id } = req.body;
 
- // Basic validation
+ // Basic field cleaning validation
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and Email are required' });
   }
