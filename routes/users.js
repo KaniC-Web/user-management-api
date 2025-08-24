@@ -3,10 +3,19 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// Utility function: simple regex validators
+// Utility function:  email validator
 function isValidEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
+  if (!email || email.length > 254) return false;
+const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(email)) return false;
+
+  const parts = email.split("@");
+  if (parts[0].length > 64) return false;
+
+  const domainParts = parts[1].split(".");
+  if (domainParts.some(part => part.length > 63)) return false;
+
+  return true;
 }
 
 function isValidPhone(phone) {
