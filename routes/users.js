@@ -100,11 +100,19 @@ router.post('/webhook', (req, res) => {
       db.query(
       'INSERT INTO rejected_users (name, email, phone, region, status, salesforce_id, reason) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [cleanedName, cleanedEmail, cleanedPhone, cleanedRegion, cleanedStatus, cleanedSFID, rejectionReason],
-      (err) => {
+      (err, result) => {
         if (err) {
           console.error('DB insert error (rejected):', err.message);
           return res.status(500).json({ error: 'Failed to insert rejected data' });
         }
+        // Insert log for rejection
+         db.query(
+          'INSERT INTO logs (rejected_id, action_type, message) VALUES (?, ?, ?)',
+          [result.insertId, 'validation_fail', `Rejected: ${rejectionReason}`],
+          (logErr) => {
+            if (logErr) console.error('Log insert error:', logErr.message);
+          }
+        );
          console.log('Rejected data logged:', { name: cleanedName, email: cleanedEmail, reason: rejectionReason });
         return res.status(400).json({ error: rejectionReason });
       }
@@ -126,6 +134,14 @@ router.post('/webhook', (req, res) => {
           console.error('DB insert error (users):', err.message);
           return res.status(500).json({ error: 'Failed to insert user data' });
         }
+           // Insert log for successful validation
+        db.query(
+          'INSERT INTO logs (user_id, action_type, message) VALUES (?, ?, ?)',
+          [result.insertId, 'validation_pass', 'Record validated and inserted/updated'],
+          (logErr) => {
+            if (logErr) console.error('Log insert error:', logErr.message);
+          }
+        );
         console.log('Cleaned data inserted from Salesforce webhook:', {
           id: result.insertId,
           name: cleanedName,
